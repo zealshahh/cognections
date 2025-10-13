@@ -13,7 +13,7 @@ app = Flask(__name__)
 def generate_words():
     response = client.models.generate_content(
         model="gemini-2.0-flash",
-        contents="Generate exactly 16 random words from the standard Oxford Dictionary that most people would understand. "
+        contents="Generate exactly 16 random words from the standard Oxford Dictionary that are not difficult to understand. Don't make them TOO basic though. They should be a combination of nouns, verbs, adjectives, adverbs. "
                  "and return them as a JSON array of strings."
     )
     try:
@@ -206,7 +206,7 @@ def index():
                     {{
                         method:'POST',
                         headers:{{ 'Content-Type':'application/json' }},
-                        body: JSON.stringify({{ contents:[{{ parts:[{{ text:`Find a creative and clever connection that describes these 4 words: ${{selectedWords.join(', ')}}. Explain in 3-6 words, no extra words. I don't want to see ANY asterisks or extra punctuation of any sort.  EVERY single word should fit within the connection and it should be a simple connection that DESCRIBES each of the four words. The connection should NOT include any of the four words.  ` }}] }}] }})
+                        body: JSON.stringify({{ contents:[{{ parts:[{{ text:`Find a creative and clever connection that describes these 4 words: ${{selectedWords.join(', ')}}. Explain in 3-6 words, no extra words. I don't want to see ANY asterisks or punctuation of any sort. and it MUST be accurate  EVERY single word should fit within the connection and it should be a simple connection that DESCRIBES each of the four words. The connection should NOT include any of the four words. The connection should mirror those of the New York Times connections ` }}] }}] }})
                     }}
                 );
                 const data = await response.json();
