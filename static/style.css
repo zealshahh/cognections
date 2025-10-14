@@ -1,0 +1,142 @@
+body {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    background-color: #fff;
+    color: black;
+}
+
+.container {
+    max-width: 600px;
+    margin: 20px auto;
+}
+
+.categories {
+    margin-bottom: 20px;
+}
+
+.category-group {
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+    animation: slideDown 0.3s ease;
+}
+
+@keyframes slideDown {
+    from { opacity: 0; transform: translateY(-20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.category-title {
+    color: black;
+    font-size: 18px;
+    font-weight: bolder;
+    text-transform: uppercase;
+    margin-bottom: 8px;
+}
+
+.category-words {
+    color: black;
+    font-size: 14px;
+    font-weight: 500;
+    text-transform: uppercase;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+}
+
+.word-box {
+    background-color: #efefe6;
+    border: none;
+    border-radius: 8px;
+    padding: 30px 20px;
+    text-align: center;
+    font-size: 16px;
+    font-weight: 700;
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: all 0.15s ease;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.word-box:hover {
+    background-color: #5a594e;
+    color: white;
+    transform: translateY(-2px);
+}
+
+.word-box.selected {
+    background-color: #5a594e;
+    color: white;
+}
+
+.word-box.hidden {
+    display: none;
+}
+
+#checkButton, #playAgainButton {
+    display: block;
+    margin: 20px auto;
+    padding: 15px 30px;
+    font-size: 16px;
+    font-weight: 700;
+    background-color: #5a594e;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+
+#checkButton:hover, #playAgainButton:hover {
+    background-color: #3a3930;
+}
+
+#checkButton:disabled {
+    background-color: #ccc;
+    cursor: not-allowed;
+}
+
+#playAgainButton {
+    display: none;
+}
+
+#result {
+    margin: 20px auto;
+    padding: 15px;
+    text-align: center;
+    font-size: 14px;
+    border-radius: 8px;
+}
+
+#winModal {
+    display: none;
+    position: fixed;
+    z-index: 1000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    justify-content: center;
+    align-items: center;
+    animation: fadeIn 0.3s ease;
+}
+
+#winModalContent {
+    background-color: white;
+    padding: 40px 50px;
+    border-radius: 12px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+    font-size: 24px;
+    font-weight: 700;
+    color: #3a3930;
+    animation: scaleUp 0.3s ease;
+}
+
+#closeWinModal {
+    font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
