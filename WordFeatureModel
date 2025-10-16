@@ -1,0 +1,35 @@
+import torch
+import torch.nn as nn
+import torch.optim as optim
+
+class WordFeatureModel(nn.Module):
+    def __init__(self, vocab_size, embedding_dim=8):
+        super(WordFeatureModel, self).__init__()
+        self.embedding = nn.Embedding(vocab_size, embedding_dim)
+        self.fc = nn.Linear(embedding_dim, 1)  # predict a "score" for each word
+
+    def forward(self, x):
+        x = self.embedding(x)
+        x = self.fc(x)
+        return torch.sigmoid(x)  # score between 0-1
+
+vocab = {"apple": 0, "run": 1, "happy": 2, "quickly": 3}  # replace with actual words
+vocab_size = len(vocab)
+model = WordFeatureModel(vocab_size)
+
+words = ["apple", "run", "happy"]
+indices = torch.tensor([vocab[w] for w in words], dtype=torch.long)
+
+scores = model(indices)
+print(scores)
+
+labels = torch.tensor([1.0, 0.0, 1.0]).unsqueeze(1)  # same shape as output
+criterion = nn.BCELoss()
+optimizer = optim.Adam(model.parameters(), lr=0.01)
+
+optimizer.zero_grad()
+loss = criterion(scores, labels)
+loss.backward()
+optimizer.step()
+
+print("Training loss:", loss.item())
