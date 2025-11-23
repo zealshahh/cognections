@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>About Me</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1 class="title">About Me</h1>
+    <p>add stuff about me ig.</p>
+
+    <img src="{{ url_for('static', filename='images/question.png') }}" 
+         id="iconButton"
+         class="icon-btn"
+         alt="menu"> 
+
+    <div class="dropdown" id="dropdownMenu">
+        <a href="{{ url_for('index') }}">Play the Game!</a>
+        <a href="{{ url_for('instructions') }}">Instructions</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

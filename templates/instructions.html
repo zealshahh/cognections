@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Instructions</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <h1 class="title">Instructions</h1>
+    <div class = "container"> 
+        <p class = "game-info">Hello! To play this game, all you have to do is pick four words to your liking and (...) </p> 
+    </div>
+
+    <img src="{{ url_for('static', filename='images/question.png') }}" 
+         id="iconButton"
+         class="icon-btn"
+         alt="menu"> 
+
+    <div class="dropdown" id="dropdownMenu">
+        <a href="{{ url_for('index') }}">Play the Game!</a>
+        <a href="{{ url_for('about') }}">About Me</a>
+    </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>

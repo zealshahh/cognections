@@ -8,34 +8,45 @@
 </head>
 <body>
 
-<div class="container">
-    <h1 class = "title">Cognections</h1>
-    <p class = "para">Create four groups of four.</p>
-    <div id="categories" class="categories"></div>
-    <div class="grid" id="wordGrid"></div>
-    <div class="button-row">
-        <button id="shuffleButton">Shuffle</button>
-        <button id="deselectAllButton" disabled>Deselect All</button> 
-        <button id="checkButton" disabled>Select 4 words</button>
+    <img src="{{ url_for('static', filename='images/question.png') }}" 
+         id="iconButton"
+         class="icon-btn"
+         alt="menu"> 
+
+    <div class="dropdown" id="dropdownMenu">
+        <a href="{{ url_for('instructions') }}">Instructions</a>
+        <a href="{{ url_for('about') }}">About Me</a>
     </div>
-    <div id="result"></div>
-</div>
 
-<script>
-    const GEMINI_API_KEY = "{{ gemini_api_key }}";
-    const initialWords = {{ words | tojson }};
-</script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<script src="{{ url_for('static', filename='script.js') }}"></script>
-
-
-<div id="winModal">
-    <div id="winModalContent">
-        You win! Great job!
-        <br>
-        <button id="closeWinModal">Play Again</button>
+    <div class="container">
+        <h1 class="title">Cognections</h1>
+        <p class="para">Create four groups of four!</p>
+        <div id="categories" class="categories"></div>
+        <div class="grid" id="wordGrid"></div>
+        <div class="button-row">
+            <button id="shuffleButton">Shuffle</button>
+            <button id="deselectAllButton" disabled>Deselect All</button> 
+            <button id="checkButton" disabled>Select 4 words</button>
+        </div>
+        <div id="result"></div>
     </div>
-</div>
+
+    <div id="winModal">
+        <div id="winModalContent">
+            You win! Great job!
+            <br>
+            <button id="closeWinModal">Play Again</button>
+        </div>
+    </div>
+
+    <script>
+        const GEMINI_API_KEY = "{{ gemini_api_key }}";
+        const initialWords = {{ words | tojson }};
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 
 </body>
 </html>

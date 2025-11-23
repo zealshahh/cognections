@@ -8,11 +8,14 @@ from dotenv import load_dotenv
 
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+DEV_MODE = False  
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 app = Flask(__name__)
 
 def generate_words():
+    if DEV_MODE: 
+        return [ "word1", "word2", "word3", "word4", "word5", "word6", "word7", "word8", "word9", "word10", "word11", "word12", "word13", "word14", "word15", "word16" ]
     prompt = (
         "Generate exactly 16 unique, random words. "
         "The words must be from the standard English dictionary, "
@@ -69,5 +72,11 @@ def index():
 def get_new_words():
     return jsonify(generate_words())
 
+@app.route("/instructions")
+def instructions():
+    return render_template("instructions.html")  
+@app.route("/about_me")
+def about():
+    return render_template("about.html")
 if __name__ == "__main__":
     app.run(debug=True)

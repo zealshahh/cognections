@@ -1,3 +1,22 @@
+document.addEventListener("DOMContentLoaded", () => {
+    const imgButton = document.getElementById("iconButton");
+    const dropdown = document.getElementById("dropdownMenu");
+
+    if (imgButton && dropdown) {
+        imgButton.addEventListener("click", (e) => {
+            e.stopPropagation(); 
+            dropdown.style.display = dropdown.style.display === "block" ? "none" : "block";
+        });
+
+        document.addEventListener("click", (event) => {
+            if (!imgButton.contains(event.target) && !dropdown.contains(event.target)) {
+                dropdown.style.display = "none";
+            }
+        });
+    }
+});
+
+
 const categoryColors = ["#fade6d", "#9fc25a", "#b1c5ed", "#bc7fc5"];
 let usedColors = [];
 let words = initialWords;
@@ -52,10 +71,8 @@ shuffleButton.addEventListener("click", shuffleGrid);
 
 
 function shuffleGrid() {
-    deselectAllButton.disabled = true;
     const boxes = Array.from(grid.children);    
     const selectedWordsSet = new Set(selectedWords);
-
     for (let i = boxes.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [boxes[i], boxes[j]] = [boxes[j], boxes[i]];
@@ -83,12 +100,21 @@ deselectAllButton.addEventListener("click", () => {
     deselectAllButton.disabled = true;
 });
 document.addEventListener('keydown', (event) => {
-    if (event.key === 'Enter') {
-        if (!checkButton.disabled && selectedWords.length === 4) {
-            checkButton.click();
-        }
+    if (event.key !== 'Enter') return;
+
+    const winModal = document.getElementById('winModal');
+    const playAgainBtn = document.getElementById('closeWinModal');
+
+    if (winModal && winModal.style.display === 'flex') {
+        playAgainBtn.click();
+        return;
+    }
+
+    if (!checkButton.disabled && selectedWords.length === 4) {
+        checkButton.click();
     }
 });
+
 
 checkButton.addEventListener('click', async () => {
     checkButton.disabled = true;
@@ -138,7 +164,6 @@ checkButton.addEventListener('click', async () => {
 
         if (usedColors.length === 4) {
             checkButton.style.display = 'none';
-            // Show "You Win" modal
             const winModal = document.getElementById('winModal');
             
             confetti({
@@ -151,7 +176,6 @@ checkButton.addEventListener('click', async () => {
             
 
         
-            // When user clicks "Play Again" in modal
             document.getElementById('closeWinModal').onclick = async () => {
                 winModal.style.display = 'none';
                 const response = await fetch('/generate_words');
@@ -163,11 +187,13 @@ checkButton.addEventListener('click', async () => {
                 checkButton.style.display = 'block';
                 renderGrid();
             };
+            
         }
         
     } catch (error) {
         resultDiv.textContent = 'Error finding connection. Try again!';
-        resultDiv.style.backgroundColor = '#f8d7da';
+        resultDiv.style.backgroundColor = 'ede8e8';
+        resultDiv.style.color = 'ffffff'; 
         checkButton.disabled = false;
         checkButton.textContent = 'Check Connection';
     }

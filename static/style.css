@@ -18,18 +18,11 @@ body {
     margin-top: -20px; 
     margin-bottom: 20px; 
 }
-.center {
-    margin: auto;
-    width: 50%;
-    border: 3px solid green;
-    padding: 10px;
-  }
 
 .container {
     max-width: 600px;
-    margin: 20px auto;
+    margin: 60px auto 20px;
 }
-
 .categories {
     margin-bottom: 20px;
 }
@@ -142,8 +135,8 @@ body {
     margin-top: 20px;
     padding: 12px 24px;
     font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif; 
-    background-color: grey;
-    color: white;
+    background-color: #808080;
+    color: #ffffff;
     border: none;
     border-radius: 8px;
     font-size: 16px;
@@ -181,4 +174,39 @@ body {
 
 #closeWinModal {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.icon-btn {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    width: 40px;
+    height: 40px;
+    
+}
+.icon-btn:hover {
+    filter: brightness(80%);
+}
+
+.dropdown {
+    position: fixed;
+    top: 70px;
+    right: 20px;
+    background: white;
+    width: 170px;
+    border: 1px solid #ccc;
+    display: none;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+    z-index: 999;
+}
+
+.dropdown a {
+    padding: 10px;
+    display: block;
+    color: black;
+    text-decoration: none;
+}
+
+.dropdown a:hover {
+    background: #f2f2f2;
 }
