@@ -4,7 +4,6 @@ let words = initialWords;
 const grid = document.getElementById('wordGrid');
 const categoriesDiv = document.getElementById('categories');
 const checkButton = document.getElementById('checkButton');
-const playAgainButton = document.getElementById('playAgainButton');
 const resultDiv = document.getElementById('result');
 let selectedWords = [];
 let selectedBoxes = [];
@@ -30,6 +29,8 @@ function renderGrid() {
                     selectedBoxes.push(box);
                 }
             }
+            deselectAllButton.disabled = selectedWords.length === 0;
+
 
             if (selectedWords.length === 4) {
                 checkButton.disabled = false;
@@ -44,13 +45,57 @@ function renderGrid() {
     });
 }
 
+
 renderGrid();
+const shuffleButton = document.getElementById("shuffleButton");
+shuffleButton.addEventListener("click", shuffleGrid);
+
+
+function shuffleGrid() {
+    deselectAllButton.disabled = true;
+    const boxes = Array.from(grid.children);    
+    const selectedWordsSet = new Set(selectedWords);
+
+    for (let i = boxes.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [boxes[i], boxes[j]] = [boxes[j], boxes[i]];
+    }
+
+    grid.innerHTML = "";
+    boxes.forEach(box => {
+        if (selectedWordsSet.has(box.dataset.word)) {
+            box.classList.add("selected");
+        }
+        grid.appendChild(box);
+    });
+}
+
+const deselectAllButton = document.getElementById("deselectAllButton");
+deselectAllButton.addEventListener("click", () => {
+    selectedBoxes.forEach(box => box.classList.remove("selected"));
+
+    selectedWords = [];
+    selectedBoxes = [];
+
+    checkButton.disabled = true;
+    checkButton.textContent = "Select 4 words";
+
+    deselectAllButton.disabled = true;
+});
+document.addEventListener('keydown', (event) => {
+    if (event.key === 'Enter') {
+        if (!checkButton.disabled && selectedWords.length === 4) {
+            checkButton.click();
+        }
+    }
+});
 
 checkButton.addEventListener('click', async () => {
     checkButton.disabled = true;
     checkButton.textContent = 'Checking...';
     resultDiv.textContent = 'Finding connection...';
     resultDiv.style.backgroundColor = '#f0f0f0';
+    deselectAllButton.disabled = true; 
 
     try {
         const response = await fetch(
@@ -95,7 +140,16 @@ checkButton.addEventListener('click', async () => {
             checkButton.style.display = 'none';
             // Show "You Win" modal
             const winModal = document.getElementById('winModal');
+            
+            confetti({
+                particleCount: 200,
+                spread: 70,
+                origin: { y: 0.6 }
+            });
+
             winModal.style.display = 'flex';
+            
+
         
             // When user clicks "Play Again" in modal
             document.getElementById('closeWinModal').onclick = async () => {
@@ -107,7 +161,6 @@ checkButton.addEventListener('click', async () => {
                 selectedBoxes = [];
                 categoriesDiv.innerHTML = '';
                 checkButton.style.display = 'block';
-                playAgainButton.style.display = 'none';
                 renderGrid();
             };
         }
@@ -120,14 +173,3 @@ checkButton.addEventListener('click', async () => {
     }
 });
 
-playAgainButton.addEventListener('click', async () => {
-    const response = await fetch('/generate_words');
-    words = await response.json();
-    usedColors = [];
-    selectedWords = [];
-    selectedBoxes = [];
-    categoriesDiv.innerHTML = '';
-    checkButton.style.display = 'block';
-    playAgainButton.style.display = 'none';
-    renderGrid();
-});
