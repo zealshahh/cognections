@@ -8,7 +8,15 @@
 <body>
     <h1 class="title">Instructions</h1>
     <div class = "container"> 
-        <p class = "game-info">Hello! To play this game, all you have to do is pick four words to your liking and (...) </p> 
+        <p class = "game-info">Hello! This game is a fanmade version of NYT Connections. Unlike the original, instead of being given sixteen words and finding four groups, you pick any four words you want, and AI creates a connection between them. Happy puzzling!
+            <br>
+            <br>
+            Play the original NYT Connections <a id = "link" target="_blank" href="https://www.nytimes.com/games/connections">here!</a>
+            <br> 
+            <br> 
+            Any feedback? Reach out to me on <a id = "link" target="_blank" href = "https://www.linkedin.com/in/zealshahh/">LinkedIn</a> or <a id = "link"  target="_blank" href = "https://x.com/strawbcoldfoam">Twitter</a>.
+
+        </p> 
     </div>
 
     <img src="{{ url_for('static', filename='images/question.png') }}" 
@@ -18,7 +26,6 @@
 
     <div class="dropdown" id="dropdownMenu">
         <a href="{{ url_for('index') }}">Play the Game!</a>
-        <a href="{{ url_for('about') }}">About Me</a>
     </div>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>

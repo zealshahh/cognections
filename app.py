@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 
 load_dotenv()
 GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
-DEV_MODE = False  
+DEV_MODE = True  
 
 client = genai.Client(api_key=GEMINI_API_KEY)
 app = Flask(__name__)
@@ -21,7 +21,7 @@ def generate_words():
         "The words must be from the standard English dictionary, "
         "not difficult to understand, but also not too basic. "
         "They should be a combination of nouns, verbs, adjectives, and adverbs. "
-        "Crucially, do not repeat any word. "
+        "Crucially, do not repeat any word. AND THERE SHOULD BE NO EXTRA CHARACTERS OR ASTERISKS "
         "Return the 16 unique words as a JSON array of strings, and nothing else."
     )
 

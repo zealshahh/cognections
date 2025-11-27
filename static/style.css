@@ -210,3 +210,18 @@ body {
 .dropdown a:hover {
     background: #f2f2f2;
 }
+
+.game-info { 
+    font-size: 20px; 
+    text-align: justify; 
+    line-height: 25px; 
+    margin-top: -25px; 
+}
+
+#link { 
+    color: darkslateblue
+}
+
+#link:hover { 
+    color: darkorchid
+}

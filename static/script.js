@@ -48,8 +48,6 @@ function renderGrid() {
                     selectedBoxes.push(box);
                 }
             }
-            deselectAllButton.disabled = selectedWords.length === 0;
-
 
             if (selectedWords.length === 4) {
                 checkButton.disabled = false;
@@ -89,6 +87,9 @@ function shuffleGrid() {
 
 const deselectAllButton = document.getElementById("deselectAllButton");
 deselectAllButton.addEventListener("click", () => {
+    if (selectedWords.length === 0) {
+        return; 
+    }
     selectedBoxes.forEach(box => box.classList.remove("selected"));
 
     selectedWords = [];
@@ -97,7 +98,6 @@ deselectAllButton.addEventListener("click", () => {
     checkButton.disabled = true;
     checkButton.textContent = "Select 4 words";
 
-    deselectAllButton.disabled = true;
 });
 document.addEventListener('keydown', (event) => {
     if (event.key !== 'Enter') return;
@@ -121,7 +121,6 @@ checkButton.addEventListener('click', async () => {
     checkButton.textContent = 'Checking...';
     resultDiv.textContent = 'Finding connection...';
     resultDiv.style.backgroundColor = '#f0f0f0';
-    deselectAllButton.disabled = true; 
 
     try {
         const response = await fetch(
