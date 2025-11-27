@@ -8,14 +8,12 @@
 </head>
 <body>
 
-    <img src="{{ url_for('static', filename='images/question.png') }}" 
+    <a href="{{ url_for('instructions') }}">
+        <img src="{{ url_for('static', filename='images/question.png') }}" 
          id="iconButton"
          class="icon-btn"
          alt="menu"> 
-
-    <div class="dropdown" id="dropdownMenu">
-        <a href="{{ url_for('instructions') }}">Instructions</a>
-    </div>
+        </a>
 
     <div class="container">
         <h1 class="title">Cognections</h1>

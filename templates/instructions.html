@@ -6,7 +6,7 @@
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1 class="title">Instructions</h1>
+    <h1 class="instruction-title">Instructions</h1>
     <div class = "container"> 
         <p class = "game-info">Hello! This game is a fanmade version of NYT Connections. Unlike the original, instead of being given sixteen words and finding four groups, you pick any four words you want, and AI creates a connection between them. Happy puzzling!
             <br>
@@ -19,14 +19,12 @@
         </p> 
     </div>
 
-    <img src="{{ url_for('static', filename='images/question.png') }}" 
-         id="iconButton"
-         class="icon-btn"
+    <a href="{{ url_for('index') }}">
+        <img src="{{ url_for('static', filename='images/home.png') }}" 
+         id="homeButton"
+         class="home-btn"
          alt="menu"> 
-
-    <div class="dropdown" id="dropdownMenu">
-        <a href="{{ url_for('index') }}">Play the Game!</a>
-    </div>
+    </a>
 
     <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>

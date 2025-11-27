@@ -4,7 +4,7 @@ body {
     color: black;
 }
 
-.title {
+.title, .instruction-title {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
     color: black;
     text-align: center; 
@@ -174,6 +174,38 @@ body {
 
 #closeWinModal {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+}
+
+.instruction-title {
+    margin-top: 60px
+
+}
+
+.home-btn {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    width: 40px;
+    height: 40px;
+    
+}
+.home-btn:hover {
+    filter: brightness(80%);
+}
+
+.home-btn {
+    position: fixed;
+    top: 20px;
+    right: 60px;
+    width: 40px;
+    height: 40px;
+    
+}
+.home-btn:hover {
+    filter: brightness(80%);
+}
+.icon-btn:hover {
+    filter: brightness(80%);
 }
 
 .icon-btn {
