@@ -100,7 +100,7 @@ body {
     width: 225px; 
 }
 
-#checkButton, #shuffleButton, #deselectAllButton {
+#checkButton, #shuffleButton, #deselectAllButton, #playAgainButton, #shareButton {
     display: block;
     padding: 15px 30px;
     font-size: 16px;
@@ -177,8 +177,11 @@ body {
 }
 
 .instruction-title {
-    margin-top: 60px
+    margin-top: 60px;
 
+}
+.play-again-bottom {
+    display: none; 
 }
 
 .home-btn {

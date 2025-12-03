@@ -1,3 +1,4 @@
+//dropdown menu stuff 
 document.addEventListener("DOMContentLoaded", () => {
     const imgButton = document.getElementById("iconButton");
     const dropdown = document.getElementById("dropdownMenu");
@@ -48,6 +49,8 @@ function renderGrid() {
                     selectedBoxes.push(box);
                 }
             }
+            selectedWords.length === 0;
+
 
             if (selectedWords.length === 4) {
                 checkButton.disabled = false;
@@ -87,9 +90,6 @@ function shuffleGrid() {
 
 const deselectAllButton = document.getElementById("deselectAllButton");
 deselectAllButton.addEventListener("click", () => {
-    if (selectedWords.length === 0) {
-        return; 
-    }
     selectedBoxes.forEach(box => box.classList.remove("selected"));
 
     selectedWords = [];
@@ -172,8 +172,13 @@ checkButton.addEventListener('click', async () => {
             });
 
             winModal.style.display = 'flex';
-            
 
+            winModal.addEventListener('click', (event) => {
+                if (event.target === winModal) {
+                    winModal.style.display = 'none';
+                    showEndButtons(); 
+                }
+            });
         
             document.getElementById('closeWinModal').onclick = async () => {
                 winModal.style.display = 'none';
@@ -197,4 +202,78 @@ checkButton.addEventListener('click', async () => {
         checkButton.textContent = 'Check Connection';
     }
 });
+// === NEW BUTTONS ===
+const playAgainButton = document.getElementById("playAgainButton");
+const shareButton = document.getElementById("shareButton");
+
+// Appears when user clicks outside the modal
+function showEndButtons() {
+    playAgainButton.style.display = "inline-block";
+    shareButton.style.display = "inline-block"; 
+    deselectAllButton.style.display = "none";
+    shuffleButton.style.display = "none";
+
+}
+
+// When clicking outside the modal
+document.getElementById('winModal').addEventListener("click", (event) => {
+    const modal = document.getElementById('winModal');
+
+    if (event.target === modal) {
+        modal.style.display = "none";
+        showEndButtons(); 
+    }
+});
+
+// PLAY AGAIN button (does NOT auto-show modal)
+playAgainButton.addEventListener("click", async () => {
+    const response = await fetch('/generate_words');
+    words = await response.json();
+    usedColors = [];
+    selectedWords = [];
+    selectedBoxes = [];
+    categoriesDiv.innerHTML = '';
+    checkButton.style.display = 'block';
+
+    playAgainButton.style.display = "none";
+    shareButton.style.display = "none";
+    deselectAllButton.style.display = "inline-block";
+    shuffleButton.style.display = "inline-block";
+
+    renderGrid();
+});
+
+// SHARE button
+shareButton.addEventListener("click", async () => {
+    const target = document.querySelector(".categories");
+
+    await new Promise(res => setTimeout(res, 50)); // wait for layout
+
+    html2canvas(target, {
+        scale: window.devicePixelRatio,
+        useCORS: true,
+        backgroundColor: null, 
+
+    }).then(canvas => {
+        canvas.toBlob(blob => {
+            const file = new File([blob], "cognections.png", { type: "image/png" });
+
+            if (navigator.share) {
+                navigator.share({
+                    files: [file],
+                    title: "My Cognections result!"
+                }).catch(() => {});
+            } else {
+                // fallback: download
+                const link = document.createElement("a");
+                link.href = canvas.toDataURL();
+                link.download = "cognections.png";
+                link.click();
+            }
+        });
+    });
+});
+
+
+
 
