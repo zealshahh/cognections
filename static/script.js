@@ -27,6 +27,7 @@ const checkButton = document.getElementById('checkButton');
 const resultDiv = document.getElementById('result');
 let selectedWords = [];
 let selectedBoxes = [];
+let findingConnection = false;
 
 function renderGrid() {
     grid.innerHTML = '';
@@ -38,6 +39,7 @@ function renderGrid() {
         box.dataset.word = word;
 
         box.addEventListener('click', () => {
+            if (findingConnection) return;
             if (box.classList.contains('selected')) {
                 box.classList.remove('selected');
                 selectedWords = selectedWords.filter(w => w !== word);
@@ -90,6 +92,7 @@ function shuffleGrid() {
 
 const deselectAllButton = document.getElementById("deselectAllButton");
 deselectAllButton.addEventListener("click", () => {
+    if (findingConnection) return;
     selectedBoxes.forEach(box => box.classList.remove("selected"));
 
     selectedWords = [];
@@ -117,6 +120,8 @@ document.addEventListener('keydown', (event) => {
 
 
 checkButton.addEventListener('click', async () => {
+    if (findingConnection || selectedWords.length !== 4) return;
+    findingConnection = true;
     checkButton.disabled = true;
     checkButton.textContent = 'Checking...';
     resultDiv.textContent = 'Finding connection...';
@@ -124,22 +129,19 @@ checkButton.addEventListener('click', async () => {
 
     try {
         const response = await fetch(
-            `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent?key=${GEMINI_API_KEY}`,
+            '/check_connection',
             {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
-                    contents: [{
-                        parts: [{
-                            text: `Find a creative and clever connection between these 4 words: ${selectedWords.join(', ')}. The connection should be a phrase of 3-6 words that DESCRIBES all of the words. Include NO additional words, no explanation. JUST the connection. NO ASTERISKS OR PERIODS. It shouldn't be something like "words with 4 letters," try to focus on the meaning of the words. `
-                        }]
-                    }]
+                    words: selectedWords
                 })
             }
         );
 
         const data = await response.json();
-        const connection = data.candidates[0].content.parts[0].text.trim();
+        if (!response.ok) throw new Error(data.error || 'Error finding connection. Try again!');
+        const connection = data.connection;
 
         const categoryGroup = document.createElement('div');
         categoryGroup.className = 'category-group';
@@ -147,10 +149,13 @@ checkButton.addEventListener('click', async () => {
         const randomColor = availableColors[Math.floor(Math.random() * availableColors.length)];
         usedColors.push(randomColor);
         categoryGroup.style.backgroundColor = randomColor;
-        categoryGroup.innerHTML = `
-            <div class="category-title">${connection}</div>
-            <div class="category-words">${selectedWords.join(', ')}</div>
-        `;
+        const categoryTitle = document.createElement('div');
+        categoryTitle.className = 'category-title';
+        categoryTitle.textContent = connection;
+        const categoryWords = document.createElement('div');
+        categoryWords.className = 'category-words';
+        categoryWords.textContent = selectedWords.join(', ');
+        categoryGroup.append(categoryTitle, categoryWords);
         categoriesDiv.appendChild(categoryGroup);
 
         selectedBoxes.forEach(box => box.classList.add('hidden'));
@@ -195,11 +200,13 @@ checkButton.addEventListener('click', async () => {
         }
         
     } catch (error) {
-        resultDiv.textContent = 'Error finding connection. Try again!';
-        resultDiv.style.backgroundColor = 'ede8e8';
-        resultDiv.style.color = 'ffffff'; 
+        resultDiv.textContent = error.message || 'Error finding connection. Try again!';
+        resultDiv.style.backgroundColor = '#ede8e8';
+        resultDiv.style.color = '#333333';
         checkButton.disabled = false;
         checkButton.textContent = 'Check Connection';
+    } finally {
+        findingConnection = false;
     }
 });
 // === NEW BUTTONS ===
@@ -273,7 +280,3 @@ shareButton.addEventListener("click", async () => {
         });
     });
 });
-
-
-
-
